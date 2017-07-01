@@ -1,0 +1,6 @@
+{
+  "key": "SPOTIFY KEY",
+  "secret": "SPOTIFY SECRET",
+  "username": "SPOTIFY USERNAME",
+  "redirect_uri": "YOURURL:YOURPORT/callback"
+}
