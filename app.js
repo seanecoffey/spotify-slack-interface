@@ -5,20 +5,7 @@ const SpotifyWebApi = require("spotify-web-api-node");
 const fs = require("fs");
 const settings = require("./settings.js");
 
-const HELP_MESSAGE = "```\n\
-SPOTIFY - SLACK USAGE:\n\n\
-add           - add a track to the current playlist. Example: add - artist - track i.e. /spotify add - john williams - duel of the fates\n\
-              - add also works with just a track name, i.e. /spotify add - duel of the fates.\n\n\
-remove        - remove a track from a playlist. Example: remove - artist - track i.e. /spotify remove - john williams - duel of the fates\n\
-              - remove also works with just a track name, but is more unreliable than specifying the artist name.\n\n\
-create        - create a new playlist and set this to the current working playlist.\n\
-              - /spotify create - playlist name, i.e. /spotify create - MAR/17\n\n\
-deleteplaylist- delete a playlist (if you create a dummy playlist or give an incorrect name).\n\
-              - /spotify delete - playlist name, i.e. /spotify delete - MAR/17\n\n\
-setplaylist   - set the current working playlist.\n\
-              - /spotify setplaylist - best of 2017\n\n\
-help          - display this message! /spotify help\n\
-```";
+const HELP_MESSAGE = require("./config/help.json");
 
 let spotifyApi = new SpotifyWebApi({
   clientId: settings.spotify.key,
@@ -42,6 +29,23 @@ function sendToSlack(s, sendURL, responseType) {
       console.log("sendToSlack: " + s);
     } else {
       console.log("sendToSlack: error, code == " + response.statusCode + ", " + response.body + ".\n");
+    }
+  });
+}
+
+//allow sending of attachments.
+function sendJson(data, sendURL) {
+  let payload = data;
+  let theRequest = {
+    url: sendURL,
+    method: "POST",
+    json: payload
+  };
+  request(theRequest, function(error, response, body) {
+    if (!error && (response.statusCode == 200)) {
+      console.log("sendJson: " + data.text); //Dont log the attachments.
+    } else {
+      console.log("sendJson: error, code == " + response.statusCode + ", " + response.body + ".\n");
     }
   });
 }
@@ -82,7 +86,7 @@ function addTrack(message, userId, userName, responseUrl) {
         if (playlist.permalink) {
           text += '<' + playlist.permalink + "|" + playlist.name + ">";
         }
-        text += "\n type `/spotify help` for details on how to add songs like this."
+        text += "\ntype `/spotify help` for details on how to add songs like this."
         return sendToSlack(text, responseUrl, "in_channel");
       }).catch((err) => {
         return sendToSlack(err.message, responseUrl, "ephemeral");
@@ -279,7 +283,7 @@ app.post("/store", function(req, res) {
     }
   }).then((conf) => {
     if (req.body.text.trim().toLowerCase() === "help") {
-      return sendToSlack(HELP_MESSAGE, responseUrl, "ephemeral");
+      return sendJson(HELP_MESSAGE, responseUrl);
     }
     if (req.body.text.trim().length === 0 || req.body.text.indexOf("-") === -1) {
       return sendToSlack("Enter an appropriate command. Try `/spotify help` for usage details.", responseUrl, "ephemeral");
