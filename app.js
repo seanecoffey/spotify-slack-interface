@@ -257,7 +257,7 @@ app.get("/refresh", function(req, res) {
 });
 
 app.use("/store", function(req, res, next) {
-  if (req.body.token !== settings.slack.token) {
+  if (!settings.slack.token.includes(req.body.token)) {
     return res.status(500).send("Cross site request.");
   }
   next();
