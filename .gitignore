@@ -39,3 +39,4 @@ Thumbs.db
 # Specific files #
 ######################
 *.json
+node_modules/*

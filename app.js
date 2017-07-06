@@ -92,7 +92,7 @@ function addTrack(message, userId, userName, responseUrl) {
         return sendToSlack(err.message, responseUrl, "ephemeral");
       });
   }).catch((err) => {
-    sendToSlack("add track error" + err, responseUrl, "ephemeral");
+    console.log("add track error" + err, responseUrl, "ephemeral");
   });
 }
 
