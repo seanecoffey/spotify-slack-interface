@@ -1,0 +1,45 @@
+{
+  "response_type": "ephemeral",
+  "text": "*SPOTIFY - SLACK USAGE*",
+    "attachments": [
+        {
+            "fallback": "Spotify-Slack usage help",
+			"color": "84bd00",
+			"title": "List of Commands:",
+			"fields": [
+				{
+					"title": "Add Track to Current Playlist",
+					"value": "Use `add - artist - track`\n Example: `/spotify add - john williams - duel of the fates`\n---",
+					"short": false
+				},
+				{
+					"title": "Remove Track From Current Playlist",
+					"value": "Use `remove - artist - track`\n Example: `/spotify remove - john williams - duel of the fates`\n\n_Note: *add* and *remove* also work with just a track name_\nExample: `/spotify add - duel of the fates`\n---",
+					"short": false
+				},
+				{
+					"title": "Create a New Playlist and Set it to the Current Playlist",
+					"value": "Use `create - playlist name`\n Example: `/spotify create - MAR/17`\n---",
+					"short": false
+				},
+				{
+					"title": "Delete a Playlist",
+					"value": "Use `delete - playlistname`\n Example: `/spotify delete - JAN/17`\n---",
+					"short": false
+				},
+				{
+					"title": "Set a Playlist to the Current Playlist",
+					"value": "Use `setplaylist - playlist name`\nExample: `/spotify setplaylist - best of 2017`\n---",
+					"short": false
+				},
+				{
+					"title": "Help",
+					"value": "Display this message!\n`/spotify help`\n---",
+					"short": false
+				}
+			],
+			"mrkdwn_in": ["fields"]
+        }
+    ],
+	"mrkdwn": true
+}
